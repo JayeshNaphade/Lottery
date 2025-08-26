@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ImportCluster
+metadata:
+  name: private-fargate-cluster
+  description: Your imported cluster
+spec:
+  git_repository:
+    provider: github
+    credential_name: User-JayeshNaphade
+    branch: main
+    repository: JayeshNaphade/Lottery
+  stacks:
+  - name: test-tsack
+    description: ese
+    addons:
+    - name: adguard-home
+      chart_name: adguard-home
+      chart_version: 5.5.2
+      repository_url: https://k8s-at-home.com/charts
+      namespace: website
+      configuration_type: standalone
+      configuration:
+        from_file: add-ons/adguard-home/values.yaml
+    - name: agent
+      chart_name: agent
+      chart_version: 2.2.4
+      repository_url: https://sysdiglabs.github.io/charts
+      namespace: website
+      configuration_type: standalone
+      configuration:
+        from_file: add-ons/agent/values.yaml
+    - name: actualbudget
+      chart_name: actualbudget
+      chart_version: 1.8.1
+      repository_url: https://community-charts.github.io/helm-charts
+      namespace: kube-system
+      configuration_type: standalone
+      configuration:
+        from_file: add-ons/actualbudget/values.yaml
+    - name: grafana
+      chart_name: grafana
+      chart_version: 6.59.4
+      repository_url: https://apecloud.github.io/helm-charts
+      namespace: website
+      configuration_type: standalone
+      configuration:
+        from_file: add-ons/grafana/values.yaml
